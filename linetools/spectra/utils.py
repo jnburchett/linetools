@@ -135,6 +135,7 @@ def collate(spectra, **kwargs):
     new_spec : XSpectrum1D
 
     """
+
     from linetools.spectra.xspectrum1d import XSpectrum1D
     # Init
     maxpix = 0
@@ -395,7 +396,6 @@ def rebin_to_rest(spec, zarr, dv, debug=False, **kwargs):
     wvnz = spec.data['wave'] > 0.
     wvmin = np.min(spec.data['wave'][wvnz] /
                    (1 + z2d[wvnz])) * spec.units['wave']
-
     npix = int(np.round(np.log(wvmax/wvmin) / dlnlamb)) + 1
     new_wv = wvmin * np.exp(dlnlamb*np.arange(npix))
 
@@ -410,7 +410,7 @@ def rebin_to_rest(spec, zarr, dv, debug=False, **kwargs):
         # Select
         spec.select = ispec
         # Rebin in obs frame
-        tspec = spec.rebin(new_wv*(1+zarr[ispec]), do_sig=True, masking='none', **kwargs)
+        tspec = spec[ispec].rebin(new_wv*(1+zarr[ispec]), do_sig=True, masking='none', **kwargs)
         # Save in rest-frame (worry about flambda)
         f_flux[ispec, :] = tspec.flux.value
         f_sig[ispec, :] = tspec.sig.value
@@ -444,7 +444,6 @@ def smash_spectra(spec, method='average', debug=False):
     # Checks
     if spec.nspec <= 1:
         raise IOError("This method smashes an XSpectrum1D instance with multiple spectra")
-    np.testing.assert_allclose(spec.data['wave'][0],spec.data['wave'][1])
     # Generate mask
     stack_msk = spec.data['sig'] > 0.
     if method == 'average':
