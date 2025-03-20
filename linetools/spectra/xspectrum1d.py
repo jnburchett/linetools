@@ -1435,11 +1435,11 @@ class XSpectrum1D(object):
                 nchunks = max(3, (wmax - wmin) / float(dw))
                 edges = np.linspace(wmin, wmax, np.int(nchunks) + 1)
 
-        if knots is None:
-            knots, indices, masked = prepare_knots(
+            if knots is None:
+                knots, indices, masked = prepare_knots(
                 wa, flux, sig, edges)
-        else:
-            knots = [list(k) for k in knots]
+            else:
+                knots = [list(k) for k in knots]
 
         if not len(knots) > 0:
             raise RuntimeError('Problem generating continuum spline knots.')

@@ -918,3 +918,18 @@ def many_abslines(all_wrest, llist):
 
     # Return
     return abs_lines
+
+def newFunction(inputarr,mode='default'):
+    """
+
+    Parameters
+    ----------
+    inputarr : Array
+
+    mode
+
+    Returns
+    -------
+
+    """
+
